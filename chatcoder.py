@@ -18,6 +18,12 @@ class CodeConverterApp(tk.Tk):
     def __init__(self):
         super().__init__()
 
+        if not os.path.exists("output"):
+            os.mkdir("output")
+            print("Created output directory")
+        else:
+            print("Output directory already exists")
+
         self.title("Natural Language to Code Converter")
         self.geometry("600x400")
 
@@ -60,8 +66,9 @@ class CodeConverterApp(tk.Tk):
         self.output_text.insert(tk.END, code)  # Inserting new converted code
 
     def save_output(self):
+        filenames = os.listdir("output")
         code = self.output_text.get(1.0, tk.END)
-        with open("output.py", "w") as file:
+        with open(f'output/{len(filenames)}.py', "w") as file:
             file.write(code)
 
 if __name__ == "__main__":

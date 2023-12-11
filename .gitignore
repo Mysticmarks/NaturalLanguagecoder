@@ -1,0 +1,28 @@
+# Ignore Python byte code files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environment directories (if using venv)
+venv/
+
+# Ignore IDE-specific files and directories (e.g., for Visual Studio Code)
+.vscode/
+
+# Ignore project-specific files like log files or database files
+logs/
+db.sqlite3
+
+# Ignore user-specific settings or files
+*.log
+*.swp
+
+# Ignore system and temporary files
+*.bak
+*.tmp
+
+# Ignore any sensitive or secret information (e.g., API keys, credentials)
+secrets.yml
+
+output/
