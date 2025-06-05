@@ -1,0 +1,41 @@
+name: Python Application CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.x' # Use a generic Python 3 version
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install nltk flake8
+        # The chatcoder.py script itself calls nltk.download().
+        # We need to ensure these resources are available for any import/run checks.
+        # Running this command in the workflow to pre-download.
+        python -c "import nltk; nltk.download('punkt'); nltk.download('averaged_perceptron_tagger')"
+
+    - name: Lint with Flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+    - name: Test basic script import
+      run: |
+        python -c "import chatcoder"
+
+    # Future step: Run unit tests (if they become viable)
+    # - name: Run Unit Tests
+    #   run: |
+    #     python -m unittest discover -s . -p "test_*.py"
